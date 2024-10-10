@@ -1,0 +1,53 @@
+trabalho terroso quase pronto:
+
+const int CHAVE1 = 1;
+const int CHAVE2 = 2;
+const int CHAVE3 = 3;
+const int LED_SIM = 9;
+const int LED_NAO = 8;
+const int LED_USIM = 7;
+const int LED_UNAO = 6;
+
+void desligaLed(int a, int b, int c) {
+
+  digitalWrite(a, LOW);
+  digitalWrite(b, LOW);
+  digitalWrite(c, LOW);
+}
+
+void setup() {
+  pinMode(CHAVE1, INPUT);
+  pinMode(CHAVE2, INPUT);
+  pinMode(CHAVE3, INPUT);
+  pinMode(LED_SIM, OUTPUT);
+  pinMode(LED_NAO, OUTPUT);
+  pinMode(LED_USIM, OUTPUT);
+  pinMode(LED_UNAO, OUTPUT);
+}
+
+void loop() {
+  int pessoa1 = digitalRead(CHAVE1);
+  int pessoa2 = digitalRead(CHAVE2);
+  int pessoa3 = digitalRead(CHAVE3);
+
+  //verificando sim
+  if ((pessoa1 == HIGH && pessoa2 == HIGH) || (pessoa1 == HIGH && pessoa3 == HIGH) || (pessoa2 == HIGH && pessoa3 == HIGH)) {
+    digitalWrite(LED_SIM, HIGH);
+    desligaLed(LED_NAO, LED_UNAO, LED_USIM);
+  } else {
+    //caso seja unanimidade sim
+    if (pessoa1 == HIGH && pessoa2 == HIGH && pessoa3 == HIGH) {
+      digitalWrite(LED_USIM, HIGH);
+      desligaLed(LED_SIM, LED_NAO, LED_UNAO);
+    } else {
+      //caso seja unanimidade nao
+      if (pessoa1 == LOW && pessoa2 == LOW && pessoa3 == LOW) {
+        digitalWrite(LED_UNAO, HIGH);
+        desligaLed(LED_SIM, LED_NAO, LED_USIM);
+      } else {
+        digitalWrite(LED_NAO, HIGH);
+        desligaLed(LED_SIM, LED_USIM, LED_USIM);
+      }
+    }
+  }
+}
